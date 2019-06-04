@@ -1,0 +1,4 @@
+MODEL:
+  NAME: 'ssd_resnet18_train_mix_800'
+  CHECKPOINT: 'ssd_resnet_18_mix_epoch_55.pth'
+  THRESHOLD: 0.3

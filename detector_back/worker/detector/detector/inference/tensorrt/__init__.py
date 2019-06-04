@@ -1,0 +1,1 @@
+from .trt_detector import TRTDetector, load_cfg

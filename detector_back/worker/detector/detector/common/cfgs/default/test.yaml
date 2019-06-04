@@ -1,0 +1,3 @@
+TEST:
+  BATCH_SIZE : 128
+  TEST_SCOPE : [0, 300]

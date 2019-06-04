@@ -1,0 +1,53 @@
+version: '2.3'
+
+services:
+  js:
+    build: ./js
+    ports:
+      - 80:80
+  stream:
+    build:
+      context: ../../
+      dockerfile: gstreamer/Dockerfile
+    network_mode: host
+    runtime: nvidia
+    command: |
+      sh -c '
+        GST_DEBUG=3,drawpredicts:4,basetransform:3,python:4 GST_PLUGIN_PATH=$$GST_PLUGIN_PATH:$$PWD \
+        gst-launch-1.0 \
+          rtspsrc "location=rtsp://${CAMERAS_URL}.60/axis-media/media.amp?videocodec=h264&audio=0&compression=20&resolution=1280x960&fps=0" \
+          ! application/x-rtp \
+          ! rtpjitterbuffer \
+          ! rtph264depay \
+          ! decodebin ! videoconvert \
+          ! video/x-raw,width=1280,height=960 \
+          ! clockoverlay text=remote \
+          ! tee name=t \
+          \
+          t. ! dp.video_sink \
+          \
+          t. \
+          ! queue \
+          ! videorate ! video/x-raw,framerate=5/1 \
+          ! videoscale \
+          ! predictor_py \
+          ! tracker_py \
+          ! dp.predicts_sink \
+          \
+          drawpredicts name=dp \
+          ! videoconvert \
+                \
+                ! mix.sink_1   videomixer name=mix sink_0::xpos=0    sink_0::ypos=0 \
+                \
+          ! vp8enc deadline=1 target-bitrate=512000 \
+          ! rtpvp8pay \
+          ! rtpstreampay ! tcpserversink host=127.0.0.1 port=33141 \
+        '
+  signalling:
+    build: ./signalling
+    network_mode: host  # webrtc wouldn't work via docker's NAT w/o TURN server
+    ports:
+      - 8443:8443
+    environment:
+      GST_DEBUG: 3
+      WS_SIG_INTERFACES_FOR_ICE: eth0
