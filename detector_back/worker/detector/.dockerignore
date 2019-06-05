@@ -1,0 +1,7 @@
+.gitignore
+.idea
+.pyc
+README.md
+__pycache__
+
+.git

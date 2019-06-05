@@ -1,0 +1,52 @@
+MODEL:
+  SSDS: ssd
+  NETS: resnet_50
+  IMAGE_SIZE: [800, 800]
+  NUM_CLASSES: 3
+  FEATURE_LAYER: [[10, 16, 'S', 'S', '', ''], [512, 1024, 512, 256, 256, 256]]
+  STEPS: [[8,8], [16, 16], [32, 32], [64, 64], [74, 74], [90, 90]]
+  SIZES: [[10, 10], [20, 20], [40, 40], [75, 75], [80, 80], [100, 100], [115, 115]]
+  ASPECT_RATIOS: [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2], [1, 2]]
+
+TRAIN:
+  MAX_EPOCHS: 200
+  CHECKPOINTS_EPOCHS: 1
+  BATCH_SIZE: 2
+  TRAINABLE_SCOPE: 'base,norm,extras,loc,conf'
+  RESUME_SCOPE: 'base,norm,extras,loc,conf'
+  OPTIMIZER:
+    OPTIMIZER: sgd
+    LEARNING_RATE: 0.004
+    MOMENTUM: 0.9
+    WEIGHT_DECAY: 0.0001
+  LR_SCHEDULER:
+    SCHEDULER: SGDR
+    WARM_UP_EPOCHS: 10
+
+TEST:
+  BATCH_SIZE: 64
+  TEST_SCOPE: [190, 200]
+
+MATCHER:
+  MATCHED_THRESHOLD: 0.5
+  UNMATCHED_THRESHOLD: 0.5
+  NEGPOS_RATIO: 3
+
+POST_PROCESS:
+  SCORE_THRESHOLD: 0.01
+  IOU_THRESHOLD: 0.6
+  MAX_DETECTIONS: 150
+
+DATASET:
+  DATASET: 'crowdhuman'
+  DATASET_DIR: '/home/alexander/Downloads/Datasets/CrowdHuman'
+  TRAIN_SETS: ["train"]
+  TEST_SETS:  ["test"]
+  PROB: 0.6
+
+
+EXP_DIR: './experiments/models/ssd_resnet50_crowdhuman'
+LOG_DIR: './experiments/models/ssd_resnet50_crowdhuman'
+RESUME_CHECKPOINT: './weights/ssd/resnet50_ssd_crowdhuman_73.2.pth'
+PHASE: ['train']
+NGPU: 4

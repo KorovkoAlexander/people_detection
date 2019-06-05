@@ -1,0 +1,1 @@
+from .inference.ssds import ObjectDetector

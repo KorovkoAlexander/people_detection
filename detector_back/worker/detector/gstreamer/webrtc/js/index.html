@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .error { color: red; }
+    </style>
+    <script src="webrtc.js"></script>
+    <script>
+      window.onload = websocketServerConnect;
+    </script>
+    <style>
+      video {
+          height: 600px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <video id="stream" autoplay controls>Your browser doesn't support video</video>
+    </div>
+    <div>Status: <span id="status">unknown</span></div>
+  </body>
+</html>

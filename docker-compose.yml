@@ -1,0 +1,68 @@
+version: "2.3"
+
+services:
+  rabbit1:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit1"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq1"
+    healthcheck:
+        test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+    networks:
+      - webnet
+
+  api:
+    build: 'detector_back/api'
+    hostname: 'detector-api'
+    environment:
+      RABBITMQ_USER: "rabbitmq"
+      RABBITMQ_PASS: "rabbitmq"
+      RABBITMQ_VHOST: "/"
+      RABBITMQ_HOST: 'rabbit1'
+    ports: 
+    - "8079:8079"
+    networks:
+      - webnet
+
+  worker:
+    build: 'detector_back/worker'
+    runtime: nvidia
+    hostname: 'detector-worker'
+    restart: on-failure
+    environment:
+      RABBITMQ_USER: "rabbitmq"
+      RABBITMQ_PASS: "rabbitmq"
+      RABBITMQ_VHOST: "/"
+      RABBITMQ_HOST: "rabbit1"
+      MODEL_NAME: "ssd_resnet18_train_mix_800"
+      MODEL_CHECKPOINT: "ssd_resnet_18_mix_epoch_55.pth"
+      MODEL_THRESH: "0.3"
+      DEVICE_ID: "0"
+    networks:
+      - webnet
+
+  front:
+    build: 'detector_front'
+    hostname: 'detector-front'
+    restart: on-failure
+    environment:
+      WORKER_HOST: "worker"
+      WORKER_PORT: "8079"
+    ports: 
+    - "8080:80"
+    networks:
+      - webnet
+
+networks:
+  webnet:

@@ -1,0 +1,41 @@
+# Name of the base net used to extract the features
+MODEL:
+  NETS : 'vgg16'
+  SSDS : 'ssd'
+  HALF_PRECISION : True
+  IMAGE_SIZE : [300, 300]
+  NUM_CLASSES : 21
+  FEATURE_LAYER : [[22, 34, 'S', 'S', '', ''], [512, 1024, 512, 256, 256, 256]]
+  STEPS : []
+  SIZES : [0.2, 0.95]
+  ASPECT_RATIOS : [[2,3], [2, 3], [2, 3], [2, 3], [2], [2]]
+  CLIP : True
+  NUM_FUSED : 3
+  
+MATCHER:
+  NUM_CLASSES : 21
+  BACKGROUND_LABEL : 0
+  MATCHED_THRESHOLD : 0.5
+  UNMATCHED_THRESHOLD : 0.5
+  NEGPOS_RATIO : 3
+  VARIANCE : [0.1, 0.2]
+  ALPHA: 1
+  GAMMA: 0.5
+
+  
+POST_PROCESS:
+  NUM_CLASSES : 21
+  BACKGROUND_LABEL : 0
+  SCORE_THRESHOLD : 0.01
+  IOU_THRESHOLD : 0.6
+  MAX_DETECTIONS : 100
+  VARIANCE : [0.1, 0.2]
+  
+ROOT_DIR : ""
+EXP_DIR : ''
+LOG_DIR : ''
+RESUME_CHECKPOINT : ''
+CHECKPOINTS_PREFIX : 'ssd_vgg16_voc'
+PHASE : ['train', 'eval', 'test']
+NGPU: 1
+
