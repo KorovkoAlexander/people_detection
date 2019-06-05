@@ -27,7 +27,7 @@
                             'border-color': 'red'
                             }"
                                  class="point"
-                            >{{scores[index]}}</div>
+                            >{{(scores[index]).toFixed(2)}}</div>
                         </div>
                     </vue-draggable-resizable>
                 </mdb-card>
@@ -83,9 +83,9 @@
                 this.boxes = this.boxes.map((box) => {
                     var new_box = [0,0,0,0];
                     new_box[0] = box[0]*k + x_shift;
-                    new_box[1] = box[1]*k + rect.y/2;
+                    new_box[1] = box[1]*k;
                     new_box[2] = box[2]*k + x_shift;
-                    new_box[3] = box[3]*k + rect.y/2;
+                    new_box[3] = box[3]*k;
                     return new_box
                 });
             }
@@ -95,10 +95,10 @@
             this.scores = this.preds['scores'];
             this.labels = this.preds['labels'];
 
-            // this.rescale_boxes();
             var img = new Image();
             this.loaded = img.addEventListener('load', () => {
                 this.loaded = true
+                this.rescale_boxes();
             });
             img.src = this.url;
         },

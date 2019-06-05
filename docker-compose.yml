@@ -45,9 +45,9 @@ services:
       RABBITMQ_PASS: "rabbitmq"
       RABBITMQ_VHOST: "/"
       RABBITMQ_HOST: "rabbit1"
-      MODEL_NAME: "ssd_resnet18_train_mix_800"
-      MODEL_CHECKPOINT: "ssd_resnet_18_mix_epoch_55.pth"
-      MODEL_THRESH: "0.3"
+      MODEL_NAME: "ssd_resnet50_train_mix_800"
+      MODEL_CHECKPOINT: "ssd_resnet_50_mix_epoch_65.pth"
+      MODEL_THRESH: "0.31"
       DEVICE_ID: "0"
     networks:
       - webnet
