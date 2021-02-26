@@ -11,7 +11,7 @@ setup(
 
     install_requires=[
         'aio-pika==5.5.3 ',
-        'aiohttp==3.5.4',
+        'aiohttp==3.7.4',
         'aiohttp-cors==0.7.0'
     ],
     python_requires='>=3.6.0'
