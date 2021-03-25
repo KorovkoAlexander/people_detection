@@ -20,7 +20,7 @@ setup(
     install_requires=[
         'aio-pika==5.5.3 ',
         'Click==7.0',
-        'PyYAML==3.13',
+        'PyYAML==5.4',
         'albumentations==0.1.10',
         'filterpy==1.4.5',
         'imgaug==0.2.6',
