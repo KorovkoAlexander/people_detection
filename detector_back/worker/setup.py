@@ -16,7 +16,7 @@ setup(
         'aio-pika==5.5.3 ',
         'detector==0.1',
         'Click==7.0',
-        'PyYAML==3.13',
+        'PyYAML==5.4',
         'Pillow==4.2.1'
     ],
     python_requires='>=3.6.0'
