@@ -17,7 +17,7 @@ setup(
         'detector==0.1',
         'Click==7.0',
         'PyYAML==3.13',
-        'Pillow==4.2.1'
+        'Pillow==9.0.0'
     ],
     python_requires='>=3.6.0'
 )
