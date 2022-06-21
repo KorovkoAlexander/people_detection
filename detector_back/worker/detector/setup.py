@@ -26,7 +26,7 @@ setup(
         'imgaug==0.2.6',
         'msgpack==0.6.1',
         'numba==0.43.0',
-        'numpy==1.15.0',
+        'numpy==1.22.0',
         'opencv-python==4.0.0.21',
         'pandas==0.23.4',
         #'pycuda==2018.1.1',
